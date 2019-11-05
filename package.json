@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack --mode development --watch ./EntrepriseManager/EntFrontend/src/index.js --output ./EntrepriseManager/EntFrontend/static/frontend/main.js",
+    "build": "webpack --mode production ./EntrepriseManager/EntFrontend/src/index.js --output ./EntrepriseManager/EntFrontend/static/frontend/main.js"
   },
   "keywords": [],
   "author": "",
@@ -19,8 +20,13 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react-dom": "^16.11.0",
+    "react-redux": "^7.1.1",
+    "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0"
   }
 }
