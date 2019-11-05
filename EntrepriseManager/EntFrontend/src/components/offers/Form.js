@@ -36,7 +36,7 @@ onSubmit = e => {
 
         return (
             <div className="card card-body mt-2 mb-2">
-            <h2>Add Entreprise</h2>
+            <h2>Add Offer</h2>
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label>Offer name</label>
