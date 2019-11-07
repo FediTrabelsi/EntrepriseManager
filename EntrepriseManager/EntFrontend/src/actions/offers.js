@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createMessage} from './messages';
+import { createMessage, returnErrors} from './messages';
 import { GET_OFFERS, DELETE_OFFER, ADD_OFFER, GET_ERRORS } from "./types";
 
 // GET OFFERS
@@ -12,9 +12,9 @@ export const getOffers = () => (dispatch, getState) => {
         payload: res.data
       });
     })
-    .catch(err =>
-      console.log(err)
-    );
+    .catch(err =>{
+      dispatch(returnErrors(err.response.data, err.response.status))
+    });
 };
 
 export const deleteOffer = id => (dispatch, getState) => {
@@ -41,13 +41,6 @@ export const deleteOffer = id => (dispatch, getState) => {
         });
       })
       .catch(err =>{
-          const errors = {
-              msg: err.response.data,
-              status : err.response.status
-          }
-          dispatch({
-            type: GET_ERRORS,
-            payload: errors
-          });
+          dispatch(returnErrors(err.response.data, err.response.status))
         });
   };

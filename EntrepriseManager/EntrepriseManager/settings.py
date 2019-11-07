@@ -39,8 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'offres',
     'rest_framework',
-    'EntFrontend'
+    'EntFrontend',
+    'knox',
+    'Entreprises'
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,7 +83,7 @@ WSGI_APPLICATION = 'EntrepriseManager.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Entreprises',
+        'NAME': 'EntreprisesDB',
         'USER': 'postgres',
         'PASSWORD': 'fedi1234',
         'HOST': '0.0.0.0',

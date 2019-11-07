@@ -7,9 +7,11 @@ export const createMessage = msg =>{
     };
 };
 
-export const returnErrors = (msg, status) => {
-    return{
+
+
+export const returnErrors = (msg,status)=>{
+    return {
         type: GET_ERRORS,
-        payload: {msg,status}
+        payload: {msg, status}
     }
 }

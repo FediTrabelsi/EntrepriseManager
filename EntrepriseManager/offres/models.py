@@ -1,6 +1,9 @@
 from django.db import models
+from Entreprises.models import Entreprise
 #from django.contrib.auth.models import User
 # Create your models here.
+
+
 
 class Offer(models.Model):
     name= models.TextField(max_length=30, unique=True)
@@ -10,6 +13,10 @@ class Offer(models.Model):
     CreationDate=models.DateTimeField(auto_now_add=True)
     ExpDate=models.DateTimeField(null=True)
     Status=models.BooleanField(null= True)
+    Entreprise = models.ForeignKey(Entreprise, on_delete=models.CASCADE,default="")
+
+
+
 
 
 
