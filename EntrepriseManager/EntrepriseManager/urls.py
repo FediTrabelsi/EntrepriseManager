@@ -9,6 +9,6 @@ urlpatterns = [
     path('', include('Entreprises.urls')),
     path('entreprise/register', registration_view, name = "register"),
 
-     path('', include('offres.urls')),
+    path('', include('offres.urls')),
     path('admin/', admin.site.urls),
 ]

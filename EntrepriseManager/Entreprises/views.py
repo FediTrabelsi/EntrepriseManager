@@ -24,7 +24,7 @@ def registration_view(request):
            ent_name = post_data['name']
         except:
             return JSONResponse({
-                "status"  : "fail",
+                "success"  : False,
                 "message" : "you have to provide the entreprise name"
                 
                 })
@@ -33,7 +33,7 @@ def registration_view(request):
                 password= post_data['password']
             except:
                 return JSONResponse({
-                "status"  : "fail",
+                "success"  : False,
                 "message" : "you have to provide a password",
                 
                 })
@@ -42,14 +42,14 @@ def registration_view(request):
                     password2= post_data['password2']
                 except:
                     return JSONResponse({
-                "status"  : "fail",
+                "success"  : False,
                 "message" : "you have to provide password confirmation",
                 
                 })
                 else:
                     if(password!=password2):
                         return JSONResponse({
-                        "status"  : "fail",
+                        "success"  : False,
                         "message" : "passwords dont match",
                         
                         })
@@ -61,7 +61,7 @@ def registration_view(request):
                         if serializer.is_valid():
                             entreprise= serializer.save()
                             return JSONResponse({
-                                "status"  : "success",
+                                "success"  : True,
                                 "message" : "the entreprise "+ent_name+" was created",
                         
                                      })
@@ -74,7 +74,7 @@ def login_view(request):
             ent_name = post_data['name']
         except:
             return JSONResponse({
-                "status"  : "fail",
+                "success"  : False,
                 "message" : "you have to provide the entreprise name"
                 
                 })
@@ -83,7 +83,7 @@ def login_view(request):
             serializer = EntrepriseSerializer(entreprises, many=True)
             if (len(serializer.data)== 0 ):
                 return JSONResponse({
-                "status"  : "fail",
+                "success"  : False,
                 "message" : "Entreprise "+ent_name + " does not exists"
                 })
             else:
@@ -91,7 +91,7 @@ def login_view(request):
                     password= post_data['password']
                 except:
                     return JSONResponse({
-                        "status"  : "fail",
+                        "success"  : False,
                         "message" : "you need to provide password"
                         
                         })
@@ -100,13 +100,13 @@ def login_view(request):
                     test = check_password(password,hashed_pass)
                     if(test):
                         return JSONResponse({
-                            "status"  : "success",
+                            "success"  : True,
                             "message" : "login into your account ...",
                             
                             })
                     else:
                         return JSONResponse({
-                            "status"  : "fail",
+                            "success"  : False,
                             "message" : "wrong password"
                             
                             })
@@ -130,7 +130,7 @@ def entreprise_list(request):
 
         serializer = EntrepriseSerializer(entreprises, many=True)
         return JSONResponse({
-            "status"  : "success",
+            "success"  : True,
             "entreprise" : serializer.data,
             
             })
@@ -144,7 +144,7 @@ def entreprise_by_name(request):
         entreprises = Entreprise.objects.filter(name = post_data['name'])
         serializer = EntrepriseSerializer(entreprises, many=True)
         return JSONResponse({
-            "status"  : "success",
+            "success"  : True,
             "entreprise" : serializer.data,
             
             })
