@@ -4,7 +4,7 @@ from django.db import models
 
 class Entreprise(models.Model):
     name = models.CharField(max_length=100)
-    password= models.CharField(max_length=50,default="")
+    password= models.CharField(max_length=300,default="")
 
 
     @classmethod

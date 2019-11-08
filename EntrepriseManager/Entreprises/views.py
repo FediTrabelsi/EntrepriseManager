@@ -8,29 +8,109 @@ from knox.models import AuthToken
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .serializers import RegistrationSerializer
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+from django.contrib.auth.hashers import make_password,check_password
+import bcrypt
 # Create your views here.
 
 
 @api_view(['POST',])
 def registration_view(request):
     if request.method == 'POST':
-        serializer = RegistrationSerializer(data=request.data)
-        data={}
-        if serializer.is_valid():
-            entreprise = serializer.save()
-            data['response']= "Entreprise succesfully registred"
-            data['name']= entreprise.name
-            data['password']= entreprise.password
+        post_data = json.loads(request.body)
+        try : 
+           ent_name = post_data['name']
+        except:
+            return JSONResponse({
+                "status"  : "fail",
+                "message" : "you have to provide the entreprise name"
+                
+                })
         else:
-            data= serializer.errors
-        return Response({
-            "data":data,
-            "token": "w8"
-            })
+            try:
+                password= post_data['password']
+            except:
+                return JSONResponse({
+                "status"  : "fail",
+                "message" : "you have to provide a password",
+                
+                })
+            else:
+                try:
+                    password2= post_data['password2']
+                except:
+                    return JSONResponse({
+                "status"  : "fail",
+                "message" : "you have to provide password confirmation",
+                
+                })
+                else:
+                    if(password!=password2):
+                        return JSONResponse({
+                        "status"  : "fail",
+                        "message" : "passwords dont match",
+                        
+                        })
+                    else:
+                        serializer = EntrepriseSerializer(data={
+                            "name": ent_name,
+                            "password" : password
+                        })
+                        if serializer.is_valid():
+                            entreprise= serializer.save()
+                            return JSONResponse({
+                                "status"  : "success",
+                                "message" : "the entreprise "+ent_name+" was created",
+                        
+                                     })
+
+@api_view(['POST',])
+def login_view(request):
+    if request.method == 'POST':
+        post_data = json.loads(request.body)
+        try:
+            ent_name = post_data['name']
+        except:
+            return JSONResponse({
+                "status"  : "fail",
+                "message" : "you have to provide the entreprise name"
+                
+                })
+        else:
+            entreprises = Entreprise.objects.filter(name = ent_name)
+            serializer = EntrepriseSerializer(entreprises, many=True)
+            if (len(serializer.data)== 0 ):
+                return JSONResponse({
+                "status"  : "fail",
+                "message" : "Entreprise "+ent_name + " does not exists"
+                })
+            else:
+                try:
+                    password= post_data['password']
+                except:
+                    return JSONResponse({
+                        "status"  : "fail",
+                        "message" : "you need to provide password"
+                        
+                        })
+                else:
+                    hashed_pass = serializer.data[0]['password']
+                    test = check_password(password,hashed_pass)
+                    if(test):
+                        return JSONResponse({
+                            "status"  : "success",
+                            "message" : "login into your account ...",
+                            
+                            })
+                    else:
+                        return JSONResponse({
+                            "status"  : "fail",
+                            "message" : "wrong password"
+                            
+                            })
+        
 
 
 
@@ -50,9 +130,11 @@ def entreprise_list(request):
 
         serializer = EntrepriseSerializer(entreprises, many=True)
         return JSONResponse({
+            "status"  : "success",
             "entreprise" : serializer.data,
             
             })
+
 
             
 @api_view(['POST',])
@@ -62,6 +144,7 @@ def entreprise_by_name(request):
         entreprises = Entreprise.objects.filter(name = post_data['name'])
         serializer = EntrepriseSerializer(entreprises, many=True)
         return JSONResponse({
+            "status"  : "success",
             "entreprise" : serializer.data,
             
             })
