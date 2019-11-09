@@ -15,6 +15,15 @@ from django.contrib.auth.hashers import make_password,check_password
 import bcrypt
 # Create your views here.
 
+class JSONResponse(HttpResponse):
+    """
+    An HttpResponse that renders its content into JSON.
+    """
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
+
 
 @api_view(['POST',])
 def registration_view(request):
@@ -54,17 +63,33 @@ def registration_view(request):
                         
                         })
                     else:
-                        serializer = EntrepriseSerializer(data={
+                        print (post_data)
+
+                        print((ent_name!="") and (password!="") and (password2!=""))
+                        if(((ent_name!="") and (password!="") and (password2!=""))):
+                            serializer = EntrepriseSerializer(data={
                             "name": ent_name,
                             "password" : password
-                        })
-                        if serializer.is_valid():
-                            entreprise= serializer.save()
+                            })
+                            if serializer.is_valid():
+                                entreprise= serializer.save()
+                                ent = Entreprise.objects.filter(name = ent_name)
+                                ent_serializer = EntrepriseSerializer(ent, many=True)
+                                return JSONResponse({
+                                    "success"  : True,
+                                    "message" : "the entreprise "+ent_name+" was created",
+                                    "data" :{ "entreprise" : ent_serializer.data[0]}
+                                        })
+                        else:
                             return JSONResponse({
-                                "success"  : True,
-                                "message" : "the entreprise "+ent_name+" was created",
+                                "success"  : False,
+                                "message" : "No field must be blank",
+                                    
+
+                            
+                                        })
+
                         
-                                     })
 
 @api_view(['POST',])
 def login_view(request):
@@ -102,6 +127,7 @@ def login_view(request):
                         return JSONResponse({
                             "success"  : True,
                             "message" : "login into your account ...",
+                            "data" :{ "entreprise" : serializer.data[0]}
                             
                             })
                     else:
@@ -114,14 +140,7 @@ def login_view(request):
 
 
 
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
+
 
 
 def entreprise_list(request):

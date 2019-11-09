@@ -19,7 +19,7 @@ const alertOptions={
 }
 class App extends Component {
     componentDidMount(){
-        store.dispatch(loadEntreprise())
+        store.dispatch(loadEntreprise());
     }
     render(){
         return ( 
@@ -31,8 +31,9 @@ class App extends Component {
             <Alerts/>
         <div className="container">
             <Switch>
-                <Route exact path="/login" component = {Login}/>
                 <PrivateRoute exact path="/" component = {Dashboard}/>
+                <Route exact path="/login" component = {Login}/>
+
                 <Route exact path="/register" component = {Register}/>
                
 

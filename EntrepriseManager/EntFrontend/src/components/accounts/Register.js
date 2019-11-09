@@ -1,20 +1,34 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import {register} from '../../actions/auth';
+import {Route , Redirect } from 'react-router-dom'
+
 export class Register extends Component {
     state = {
         name : '',
         password : '',
-        password_conf : ''
+        password2 : ''
     };
 
-    onSubmit = e=>{
+    static propTypes = {
+      register: PropTypes.func.isRequired,
+      isAuthenticated: PropTypes.bool
+    }
+    onSubmit = e => {
         e.preventDefault();
-        console.log("submit")
+        console.log(this.state.name, this.state.password, this.state.password2)
+        this.props.register(this.state.name, this.state.password, this.state.password2);
+        
     };
-
-    onChange= e =>this.setState({ [e.target.name]: e.target.value})
+    
+    onChange = e => this.setState({ [e.target.name]: e.target.value });
     render() {
-        const { name , password , password_conf} = this.state;
+      if(this.props.isAuthenticated){
+        return <Redirect to="/" />
+      }
+        const { name , password , password2} = this.state;
         return (
             <div className="col-md-6 m-auto">
         <div className="card card-body mt-5">
@@ -47,7 +61,7 @@ export class Register extends Component {
                 className="form-control"
                 name="password2"
                 onChange={this.onChange}
-                value={password_conf}
+                value={password2}
               />
             </div>
             <div className="form-group">
@@ -65,4 +79,10 @@ export class Register extends Component {
     }
 }
 
-export default Register
+
+const  mapSatateToProps = state =>({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+
+export default connect(mapSatateToProps, {register } )(Register)

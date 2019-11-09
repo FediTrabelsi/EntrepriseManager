@@ -18,13 +18,14 @@ export class Loign extends Component {
     }
     onSubmit = e => {
         e.preventDefault();
-        this.props.login(this.state.name, this.state.password)
+        this.props.login(this.state.name, this.state.password);
+        
     };
     
       onChange = e => this.setState({ [e.target.name]: e.target.value });
     render() {
       if(this.props.isAuthenticated){
-        return <Redirect to="/register"/>
+        return <Redirect to="/" />
       }
         const { name , password}=this.state;
         return (
