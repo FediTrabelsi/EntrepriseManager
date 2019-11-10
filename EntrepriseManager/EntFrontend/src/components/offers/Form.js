@@ -12,12 +12,17 @@ export class Form extends Component {
         ExpDate:'',
         Status:''
     }
+
+    static propTypes = {
+      Entreprise:PropTypes.number
+    };
     onChange = e => this.setState({ [e.target.name]: e.target.value });
 
 onSubmit = e => {
   e.preventDefault();
   const { name, description, nb_places, nb_applicants,CreationDate,ExpDate,Status} = this.state;
-  const offer = {  name, description, nb_places,ExpDate};
+  const Entreprise=  this.props.Entreprise;
+  const offer = {  name, description, nb_places,ExpDate,Entreprise};
   
   this.props.addOffer(offer);
   this.setState({
@@ -92,7 +97,12 @@ onSubmit = e => {
     }
 }
 
+
+const mapStateToProps = state => ({
+  Entreprise : state.auth.user.id
+});
+
 export default connect(
-    null,
+    mapStateToProps,
     { addOffer }
   )(Form);

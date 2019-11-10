@@ -12,8 +12,13 @@ class Offer(models.Model):
     nb_applicants= models.IntegerField(max_length=3,default=0)
     CreationDate=models.DateTimeField(auto_now_add=True)
     ExpDate=models.DateTimeField(null=True)
-    Status=models.BooleanField(null= True)
+    Status=models.BooleanField(default=True)
     Entreprise = models.ForeignKey(Entreprise, on_delete=models.CASCADE,default="")
+
+    @classmethod
+    def create(name, description,nb_places,ExpDate,Entreprise):
+        offer = cls(name= name , description=description, nb_places=nb_places, ExpDate=ExpDate, Entreprise=Entreprise)
+        return offer
 
 
 

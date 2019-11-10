@@ -10,5 +10,4 @@ class Entreprise(models.Model):
     @classmethod
     def create(name, password):
         entreprise = cls(name= name , password= password)
-        # do something with the book
         return entreprise

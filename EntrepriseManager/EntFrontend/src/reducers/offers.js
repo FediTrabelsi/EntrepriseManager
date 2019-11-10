@@ -1,7 +1,8 @@
 import {GET_OFFERS ,DELETE_OFFER, ADD_OFFER, CLEAR_OFFERS} from '../actions/types.js';
 
 const initialState = {
-    offers: []
+    offers: [], 
+    msg : null,
   };
 
   export default function (state = initialState, action) {
@@ -9,7 +10,8 @@ const initialState = {
       case GET_OFFERS:
         return {
           ...state,
-          offers: action.payload
+          offers: action.payload.offers,
+          msg: action.payload.message
         };
       case DELETE_OFFER:
         return {
@@ -19,7 +21,9 @@ const initialState = {
       case ADD_OFFER:
         return {
           ...state,
-          offers: [...state.offers, action.payload]
+          offers: [...state.offers, action.payload.data.offer],
+          msg:action.payload.message
+
         };
       case CLEAR_OFFERS:
         return {

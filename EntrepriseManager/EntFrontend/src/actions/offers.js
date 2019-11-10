@@ -3,23 +3,45 @@ import { createMessage, returnErrors} from './messages';
 import { GET_OFFERS, DELETE_OFFER, ADD_OFFER, GET_ERRORS } from "./types";
 
 // GET OFFERS
-export const getOffers = () => (dispatch, getState) => {
+export const getOffers = (id) => (dispatch, getState) => {
+  const config = {
+    headers:{
+        'Content-Type': 'application/json'
+    }
+}
+
+const body = JSON.stringify({ id})
   axios
-    .get("/api/offers/")
+    .post("/offers/getByEntId/",body,config)
     .then(res => {
-      dispatch({
-        type: GET_OFFERS,
-        payload: res.data
-      });
+      if(res.data.success){
+        dispatch({
+          type: GET_OFFERS,
+          payload: res.data
+        });
+      }
+      else{
+        dispatch({
+            type:GET_ERRORS,
+            payload: res.data.message
+            
+        })
+    }
+      
     })
-    .catch(err =>{
-      dispatch(returnErrors(err.response.data, err.response.status))
-    });
+      
 };
 
 export const deleteOffer = id => (dispatch, getState) => {
+  const config = {
+    headers:{
+        'Content-Type': 'application/json'
+    }
+}
+
+const body = JSON.stringify({ id})
     axios
-      .delete(`/api/offers/${id}/`)
+      .post(`/offers/deleteOffer/`,body,config)
       .then(res => {
         dispatch(createMessage({ deleteOffer : "this offer was deleted"}))
         dispatch({
@@ -31,16 +53,34 @@ export const deleteOffer = id => (dispatch, getState) => {
   };
 
   export const addOffer = offer=> (dispatch, getState) => {
+    const config = {
+      headers:{
+          'Content-Type': 'application/json'
+      }
+  }
+  console.log(offer)
+  
     axios
-      .post("/api/offers/", offer)
+      .post("/offers/createOffer/", offer,config)
       .then(res => {
-        dispatch(createMessage({ addOffer : "New offer was added"}))
+        console.log(res)
+        if(res.data.success){
+          console.log(res.data)
+
+          dispatch(createMessage({ addOffer : "New offer was added"}))
         dispatch({
           type: ADD_OFFER,
           payload: res.data
         });
+        }
+        else{
+          dispatch({
+              type:GET_ERRORS,
+              payload: res.data.message
+              
+          })
+      }
+        
       })
-      .catch(err =>{
-          dispatch(returnErrors(err.response.data, err.response.status))
-        });
+     
   };

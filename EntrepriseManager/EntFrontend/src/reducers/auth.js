@@ -3,7 +3,7 @@ import { ENTREPRISE_LOADED,ENTREPRISE_LOADING,REGISTER_SUCCESS,REGISTER_FAIL, AU
 
 const initialState = {
     user : null,
-    isAuthenticated : null,
+    isAuthenticated : false,
     msg:null
 
 }
@@ -19,7 +19,8 @@ export default function(state = initialState, action){
         case LOGIN_SUCCESS :
             return{
                 isAuthenticated:true,
-                user: action.entreprise
+                user: action.entreprise,
+                msg: action.payload
             }
         case AUTH_ERROR :
         case LOGIN_FAIL :

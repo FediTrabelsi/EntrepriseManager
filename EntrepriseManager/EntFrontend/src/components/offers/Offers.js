@@ -2,9 +2,12 @@ import React, { Component , Fragment} from 'react'
 import {connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {getOffers, deleteOffer} from '../../actions/offers';
+import { AUTH_ERROR } from '../../actions/types';
 
 export class Offers extends Component {
     static propTypes = {
+        name: PropTypes.string,
+        id:PropTypes.number,
         offers: PropTypes.array.isRequired,
         getOffers: PropTypes.func.isRequired,
         deleteOffer: PropTypes.func.isRequired
@@ -13,7 +16,7 @@ export class Offers extends Component {
       
       };
       componentDidMount() {
-        this.props.getOffers();
+        this.props.getOffers(this.props.id);
       }
       
 
@@ -64,5 +67,8 @@ export class Offers extends Component {
 }
 
 const mapStateToProps = state => ({
-    offers: state.offers.offers});
+    offers: state.offers.offers,
+    name :  state.auth.user.name,
+    id : state.auth.user.id
+  });
 export default connect(mapStateToProps, {getOffers, deleteOffer})(Offers)

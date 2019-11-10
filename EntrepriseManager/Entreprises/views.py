@@ -160,10 +160,21 @@ def entreprise_list(request):
 def entreprise_by_name(request):
     if request.method == 'POST':
         post_data = json.loads(request.body)
-        entreprises = Entreprise.objects.filter(name = post_data['name'])
-        serializer = EntrepriseSerializer(entreprises, many=True)
-        return JSONResponse({
-            "success"  : True,
-            "entreprise" : serializer.data,
-            
-            })
+        try:
+            ent_name = post_data['name']  
+        except:
+            return JSONResponse({
+                "success"  : False,
+                "message":"you must provide the name of the entreprise"
+                
+                
+                })
+        else:
+            entreprises = Entreprise.objects.filter(name = ent_name)
+            serializer = EntrepriseSerializer(entreprises, many=True)
+            return JSONResponse({
+                "success"  : True,
+                "message"  : "loading your offers",
+                "entreprise" : serializer.data,
+                
+                })
