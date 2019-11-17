@@ -11,12 +11,15 @@ import store from '../store';
 import Login from './accounts/Loign';
 import Register from './accounts/Register';
 import PrivateRoute from './common/PrivateRoute';
+import RouteToDash from './common/RouteToDash'
 import {loadEntreprise} from '../actions/auth'
+import EntDashboard from './Entreprise/EntDashboard'
 
 const alertOptions={
     timeout: 3000,
     position: 'top center'
 }
+
 class App extends Component {
     componentDidMount(){
         store.dispatch(loadEntreprise());
@@ -32,9 +35,13 @@ class App extends Component {
         <div className="container">
             <Switch>
                 <PrivateRoute exact path="/" component = {Dashboard}/>
-                <Route exact path="/login" component = {Login}/>
-
-                <Route exact path="/register" component = {Register}/>
+                <Route path="/login" render={({ }) => <Login />} />
+                <Route path="/register" render={({ }) => <Register />} />
+                
+                <Route
+          exact path="/entdash"
+          render={({ }) => <EntDashboard />}
+        />
                
 
             </Switch>

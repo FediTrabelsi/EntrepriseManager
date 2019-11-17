@@ -11,15 +11,9 @@ export class Alerts extends Component {
     componentDidUpdate(prevProps){
         const {error,alert, message  }= this.props;
         if(error !== prevProps.error){
-            if(error.msg.name){
-                alert.error(`Name: ${error.msg.name.join()}`)
-            }else if(error.msg.description){
-                    alert.error(`Description : ${error.msg.description.join()}`)
-                }else if(error.msg.nb_places){
-                    alert.error(`Available positions : ${error.msg.nb_places.join()}`)
-                }else if(error.msg.ExpDate){
-                    alert.error(`Expiration date : ${error.msg.ExpDate.join()}`)
-                }
+                    
+                    alert.error(error.msg.message)
+                
             
         }
 

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from .models import Entreprise
-from .serializers import EntrepriseSerializer
+from .serializers import EntrepriseSerializer , GetEntrepriseSerializer
 from knox.models import AuthToken
 from rest_framework.response import Response
 from rest_framework import status
@@ -65,7 +65,7 @@ def registration_view(request):
                     else:
                         print (post_data)
 
-                        print((ent_name!="") and (password!="") and (password2!=""))
+                        #{print((ent_name!="") and (password!="") and (password2!=""))
                         if(((ent_name!="") and (password!="") and (password2!=""))):
                             serializer = EntrepriseSerializer(data={
                             "name": ent_name,
@@ -124,10 +124,13 @@ def login_view(request):
                     hashed_pass = serializer.data[0]['password']
                     test = check_password(password,hashed_pass)
                     if(test):
+                        
+                        ent = Entreprise.objects.filter(name=ent_name)
+                        entserializer = GetEntrepriseSerializer(ent, many=True)
                         return JSONResponse({
                             "success"  : True,
                             "message" : "login into your account ...",
-                            "data" :{ "entreprise" : serializer.data[0]}
+                            "data" :{ "entreprise" : entserializer.data[0]}
                             
                             })
                     else:
@@ -147,10 +150,11 @@ def entreprise_list(request):
     if request.method == 'GET':
         entreprises= Entreprise.objects.all()
 
-        serializer = EntrepriseSerializer(entreprises, many=True)
+        serializer = GetEntrepriseSerializer(entreprises, many=True)
         return JSONResponse({
             "success"  : True,
-            "entreprise" : serializer.data,
+            "message"  :  "All listed entreprises are :",
+            "entreprises" : serializer.data,
             
             })
 
@@ -171,7 +175,31 @@ def entreprise_by_name(request):
                 })
         else:
             entreprises = Entreprise.objects.filter(name = ent_name)
-            serializer = EntrepriseSerializer(entreprises, many=True)
+            serializer = GetEntrepriseSerializer(entreprises, many=True)
+            return JSONResponse({
+                "success"  : True,
+                "message"  : "loading your offers",
+                "entreprise" : serializer.data,
+                
+                })
+
+@api_view(['POST',])
+def update_entreprise(request):
+    if request.method == 'POST':
+        post_data = json.loads(request.body)
+        try:
+            ent_id = post_data['id']  
+        except:
+            return JSONResponse({
+                "success"  : False,
+                "message":"you must provide the id of the entreprise"
+                
+                
+                })
+        else:
+            entreprise = Entreprise.objects.filter(id = ent_id).update(moto= post_data['moto'])
+            ent = Entreprise.objects.filter(id = ent_id)
+            serializer = GetEntrepriseSerializer(ent, many=True)
             return JSONResponse({
                 "success"  : True,
                 "message"  : "loading your offers",
