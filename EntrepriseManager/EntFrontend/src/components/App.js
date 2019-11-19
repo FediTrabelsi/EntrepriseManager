@@ -11,7 +11,6 @@ import store from '../store';
 import Login from './accounts/Loign';
 import Register from './accounts/Register';
 import PrivateRoute from './common/PrivateRoute';
-import RouteToDash from './common/RouteToDash'
 import {loadEntreprise} from '../actions/auth'
 import EntDashboard from './Entreprise/EntDashboard'
 

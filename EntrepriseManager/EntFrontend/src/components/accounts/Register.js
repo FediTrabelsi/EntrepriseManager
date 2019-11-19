@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { connect } from 'react-redux';
 import {register} from '../../actions/auth';
+import { useAlert } from 'react-alert';
 import {Route , Redirect } from 'react-router-dom'
 
 
@@ -78,6 +79,8 @@ const initialState = {
   
 };
 export  function   Registerr({isAuthenticated, register}) {
+  const alert = useAlert()
+
   Registerr.state = {
               name : '',
               password :'',

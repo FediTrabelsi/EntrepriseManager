@@ -14,7 +14,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Hidden from '@material-ui/core/Hidden';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+import { useAlert } from 'react-alert'
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
 
@@ -132,7 +132,6 @@ const sections = [
 
 
 
-const posts = [post1, post2, post3];
 
 const archives = [
   'March 2020',
@@ -152,6 +151,8 @@ const archives = [
 const social = ['GitHub', 'Twitter', 'Facebook'];
 
 export  function EntDashboard({id, name, moto , description, getOffers, offers}) {
+  const alert = useAlert()
+
   const classes = useStyles();
   var posted_offers=[]
   var obj = {}
@@ -187,8 +188,7 @@ console.log(posted_offers);
           </IconButton>
           <Button variant="outlined" size="small"
            onClick={e => {
-            getOffers(id);
-            console.log(id,name)
+            alert.show('Oh look, an alert!')
            }
         }
           >

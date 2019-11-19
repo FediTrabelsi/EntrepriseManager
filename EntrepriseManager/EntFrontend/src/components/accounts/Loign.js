@@ -15,6 +15,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { connect } from 'react-redux';
 import {login} from '../../actions/auth';
 import {Route , Redirect } from 'react-router-dom'
+import { useAlert }  from 'react-alert';
 
 
 
@@ -83,7 +84,7 @@ export  function   Login({isAuthenticated,login}) {
           
           }
          
-
+            const alert = useAlert()
             const classes = useStyles();
             if(isAuthenticated){
               return <Redirect to="/" />
