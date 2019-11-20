@@ -13,7 +13,7 @@ import Register from './accounts/Register';
 import PrivateRoute from './common/PrivateRoute';
 import {loadEntreprise} from '../actions/auth'
 import EntDashboard from './Entreprise/EntDashboard'
-
+import  MainDashboard  from './Entreprise/Dashboard/MainDashboard'
 const alertOptions={
     timeout: 3000,
     position: 'top center'
@@ -36,7 +36,7 @@ class App extends Component {
                 <PrivateRoute exact path="/" component = {Dashboard}/>
                 <Route path="/login" render={({ }) => <Login />} />
                 <Route path="/register" render={({ }) => <Register />} />
-                
+                <Route path="/d" render={({ }) => <MainDashboard />} />
                 <Route
           exact path="/entdash"
           render={({ }) => <EntDashboard />}
