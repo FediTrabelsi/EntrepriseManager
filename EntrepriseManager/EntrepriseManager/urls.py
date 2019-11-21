@@ -8,5 +8,7 @@ urlpatterns = [
     path('', include('EntFrontend.urls')),
     path('', include('offres.urls')),
     path('',include('Entreprises.urls')),
+    path('',include('skills.urls')),
+    path('',include('offerRequirements.urls')),
     path('admin/', admin.site.urls),
 ]

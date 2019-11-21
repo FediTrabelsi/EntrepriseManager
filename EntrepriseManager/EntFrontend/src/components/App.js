@@ -5,6 +5,7 @@ import {Provider as AlertProvider} from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
 import Header from './layout/Header'
 import Dashboard from './offers/Dashboard';
+import skillsF from './skills/skillsF';
 import Alerts from  './layout/Alerts';
 import {Provider } from 'react-redux';
 import store from '../store';
@@ -32,8 +33,8 @@ class App extends Component {
         <div className="container">
             <Switch>
                 <PrivateRoute exact path="/" component = {Dashboard}/>
+                <Route exact path="/skills" component = {skillsF}/>
                 <Route exact path="/login" component = {Login}/>
-
                 <Route exact path="/register" component = {Register}/>
                
 

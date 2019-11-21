@@ -13,3 +13,6 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const CLEAR_OFFERS = 'CLEAR_OFFERS';
 export const CREATE_MESSAGE = "CREATE_MESSAGE";
 export const GET_MESSAGES = "GET_MESSAGES";
+export const GET_SKILLS = "GET_SKILLS";
+export const DELETE_SKILL = "DELETE_SKILL";
+export const ADD_SKILL= "ADD_SKILL";

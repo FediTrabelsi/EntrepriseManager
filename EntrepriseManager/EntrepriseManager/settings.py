@@ -25,7 +25,7 @@ SECRET_KEY = '-2mpd74etjfq*%ox^xx3rgm0b@@x+ikgrfyqw($sb_&6b7i3n_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'EntFrontend',
     'knox',
-    'Entreprises'
+    'Entreprises',
+    'skills',
+    'offerRequirements'
 ]
 
 
@@ -93,9 +95,9 @@ WSGI_APPLICATION = 'EntrepriseManager.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'EntreprisesDB',
+        'NAME': 'entreprisedatabase',
         'USER': 'postgres',
-        'PASSWORD': 'fedi1234',
+        'PASSWORD': 'admin',
         'HOST': '0.0.0.0',
         'PORT': '5432',
     }
