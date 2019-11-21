@@ -52,16 +52,21 @@ const body = JSON.stringify({ id})
       .catch(err => console.log(err.response.data));
   };
 
-  export const addOffer = offer=> (dispatch, getState) => {
+export const addOffer = offer=> (dispatch, getState) => {
     const config = {
       headers:{
           'Content-Type': 'application/json'
       }
   }
-  console.log(offer)
+  var newOffer={};
+  Object.keys(offer).forEach(function (key) {
+    if(offer[key]!=""){
+   newOffer[key]=offer[key];
+  }
+  });
   
     axios
-      .post("/offers/createOffer/", offer,config)
+      .post("/offers/createOffer/", newOffer,config)
       .then(res => {
         console.log(res)
         if(res.data.success){
@@ -74,9 +79,10 @@ const body = JSON.stringify({ id})
         });
         }
         else{
+          
           dispatch({
               type:GET_ERRORS,
-              payload: res.data.message
+              payload: res.data
               
           })
       }

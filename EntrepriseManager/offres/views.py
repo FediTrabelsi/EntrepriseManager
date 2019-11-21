@@ -48,6 +48,7 @@ def offer_by_ent_id(request):
 
 @api_view(['POST',])
 def create_offer(request):
+    err_field=""
     if request.method == 'POST':
         post_data = json.loads(request.body)
         try:
@@ -140,3 +141,61 @@ def delete_offer(request):
             "message" : "offer was deleted"
             })
             
+@api_view(['GET',])
+def get_all_offers(request):
+    offers = Offer.objects.all()
+    serializer = OfferSerializer(offers, many=True)
+    return JSONResponse({
+                "success"  : True,
+                "message"  : "All available offers : ",
+                "offers" : serializer.data,
+                
+    })
+    
+        
+@api_view(['POST',])
+def offer_by_ent_name(request):
+    if request.method == 'POST':
+        post_data = json.loads(request.body)
+        try:
+            ent_id = post_data['id'] 
+            ent_name=post_data['name'] 
+        except:
+            return JSONResponse({
+                "success"  : False,
+                "message":"you must provide the id of the entreprise"
+                
+                
+                })
+        else:
+            offers = Offer.objects.filter(Entreprise = ent_id)
+            serializer = OfferSerializer(offers, many=True)
+            return JSONResponse({
+                "success"  : True,
+                "message"  : "The offers of "+ent_name+" are :",
+                "offers" : serializer.data,
+                
+                })         
+
+@api_view(['POST',])
+def offer_by_skill(request):
+    if request.method == 'POST':
+        post_data = json.loads(request.body)
+        try:
+            ent_id = post_data['id'] 
+        except:
+            return JSONResponse({
+                "success"  : False,
+                "message":"you must provide the id of the entreprise"
+                
+                
+                })
+        else:
+            offers = Offer.objects.filter(Entreprise = ent_id)
+            serializer = OfferSerializer(offers, many=True)
+            return JSONResponse({
+                "success"  : True,
+                "message"  : "The offers verifiying your search are : ",
+                "offers" : serializer.data,
+                
+                })   

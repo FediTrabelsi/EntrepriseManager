@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {returnErrors } from './messages'
 
-import {ENTREPRISE_LOADED,AUTH_ERROR,LOGIN_SUCCESS,LOGIN_FAIL, REGISTER_SUCCESS,REGISTER_FAIL} from './types'
+import {ENTREPRISE_LOADED,AUTH_ERROR,LOGIN_SUCCESS,LOGIN_FAIL, REGISTER_SUCCESS,REGISTER_FAIL, GET_ERRORS} from './types'
 
 export const loadEntreprise = () =>(dispatch,getState) =>{
     const config = {
@@ -49,9 +49,11 @@ export const login = (name,password) =>(dispatch) =>{
             entreprise :res.data.data.entreprise
         })}
         else{
+            console.log(res.data.message)
+
             dispatch({
-                type:LOGIN_FAIL,
-                payload: res.data.message
+                type:GET_ERRORS,
+                payload: res.data
                 
             })
         }
@@ -80,8 +82,8 @@ export const register = (name,password,password2) =>(dispatch) =>{
         })}
         else{
             dispatch({
-                type:REGISTER_FAIL,
-                payload: res.data.message
+                type:GET_ERRORS,
+                payload: res.data
                 
             })
         }

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Form from './Form';
 import Offers from './Offers'
+import Login from '../accounts/Loign'
 export class Dashboard extends Component {
     render() {
         return (
@@ -8,6 +9,7 @@ export class Dashboard extends Component {
                <Form/>
                <Offers/>
            </Fragment>
+           
         )
     }
 }

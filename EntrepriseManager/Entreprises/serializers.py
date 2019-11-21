@@ -6,7 +6,7 @@ import bcrypt
 class EntrepriseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entreprise
-        fields = ('id','name', 'password')
+        fields = ('id','name','password')
 
     def save(self):
         entreprise = Entreprise(
@@ -16,4 +16,9 @@ class EntrepriseSerializer(serializers.ModelSerializer):
         entreprise.save()
         return entreprise
 
-    
+class GetEntrepriseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Entreprise
+        fields = ('id','name','adress','capital','creationDate','description','email','employees','logo','moto','phone','sector')
+
+   
